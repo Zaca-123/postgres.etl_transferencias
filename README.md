@@ -19,10 +19,8 @@ Este portal proporciona información pública en formatos reutilizables, incluye
 Este tutorial guía al usuario a través de los pasos necesarios para desplegar una infraestructura ETL utilizando Docker, PostgreSQL, Apache Superset y pgAdmin. Se incluyen instrucciones detalladas para:
 
 1. Levantar los servicios con Docker.
-2. Configurar la conexión a la base de datos en Apache Superset.
-3. Crear tablas temporales y definitivas.
-4. Insertar datos en tablas.
-5. Ejecutar consultas SQL para analizar los datos de casos de transferencias.
+2. Configurar la conexión a la base de datos en Apache Superset
+3. Ejecutar consultas SQL para analizar los datos de casos de transferencias.
 
 ## **Palabras Clave**
 
