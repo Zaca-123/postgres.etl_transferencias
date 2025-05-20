@@ -146,7 +146,7 @@ Accede a Apache Superset y crea una conexión a la base de datos PostgreSQL en l
 
 ### **2. Consultas SQL**
 
-#### **Consulta 1:Muestra cuantas transferencias de vehiculos ocurrieron agrupando por registro seccional y anio del modelo de vehiculo **
+#### **Consulta 1: Muestra cuantas transferencias de vehiculos ocurrieron agrupando por registro seccional y anio del modelo de vehiculo **
 ```sql
 SELECT
     transferencia.registro_seccional_descripcion AS registro_seccional_descripcion,
@@ -158,7 +158,7 @@ GROUP BY
     transferencia.automotor_anio_modelo;
 ```
 
-#### **Consulta 2:Cuenta la cantidad de transferencias que hubo por el tipo y modelo de vehiculo.**
+#### **Consulta 2: Cuenta la cantidad de transferencias que hubo por el tipo y modelo de vehiculo.**
 ```sql
 SELECT
     transferencia.automotor_tipo_codigo AS automotor_tipo_codigo,
