@@ -46,7 +46,7 @@ El código proporcionado se ofrece "tal cual", sin garantía de ningún tipo, ex
 
 Este proyecto implementa un proceso ETL (Extract, Transform, Load) para la carga y análisis de datos relacionados con transferencias de vehiculos en Argentina. Utiliza herramientas modernas como Docker, PostgreSQL, Apache Superset y pgAdmin para facilitar la gestión, análisis y visualización de datos.
 
-El objetivo principal es proporcionar una solución escalable y reproducible para analizar datos de transferencias de vehiculos por registros secional, departamento y provincia, permitiendo la creación de tableros interactivos.
+El objetivo principal es proporcionar una solución escalable y reproducible para analizar datos de transferencias de vehiculos por registros seccional, departamento y provincia, permitiendo la creación de tableros interactivos.
 
 ## **Características Principales**
 
@@ -146,52 +146,40 @@ Accede a Apache Superset y crea una conexión a la base de datos PostgreSQL en l
 
 ### **2. Consultas SQL**
 
-#### **Consulta 1:Muestra cuantas transferencias de vehiculos ocurrieron agrupando por registro seccional y anio del vehiculo **
+#### **Consulta 1:Muestra cuantas transferencias de vehiculos ocurrieron agrupando por registro seccional y anio del modelo de vehiculo **
 ```sql
 SELECT
-    registro_seccional.descripcion AS registro_seccional_descripcion,
-    automotor.automotor_anio_modelo,
+    transferencia.registro_seccional_descripcion AS registro_seccional_descripcion,
+    transferencia.automotor_anio_modelo,
     COUNT(*) AS cantidad
-FROM
-    transferencia
-    INNER JOIN automotor ON transferencia.automotor_id = automotor.id
-    INNER JOIN registro_seccional ON automotor.registro_seccional_id = registro_seccional.id
+FROM transferencia
 GROUP BY
-    registro_seccional.descripcion,
-    automotor.automotor_anio_modelo;
+    transferencia.registro_seccional_descripcion,
+    transferencia.automotor_anio_modelo;
 ```
 
-#### **Consulta 2:Cuenta la cantidad de transferencias por fecha del trámite y origen del automotor (nacional, importado, etc.), y ordena los resultados por fecha descendente (más reciente primero).**
+#### **Consulta 2:Cuenta la cantidad de transferencias que hubo por el tipo y modelo de vehiculo.**
 ```sql
 SELECT
-    automotor.tramite_fecha,
-    automotor.automotor_origen,
+    transferencia.automotor_tipo_codigo AS automotor_tipo_codigo,
+    transferencia.automotor_tipo_descripcion AS automotor_tipo_descripcion,
+    transferencia.automotor_modelo_descripcion AS automotor_modelo_descripcion,
     COUNT(*) AS cantidad
-FROM
-    transferencia
-    INNER JOIN automotor ON transferencia.automotor_id = automotor.id
+FROM transferencia
 GROUP BY
-    automotor.tramite_fecha,
-    automotor.automotor_origen
-ORDER BY
-    automotor.tramite_fecha DESC;
+    transferencia.automotor_tipo_codigo,
+    transferencia.automotor_tipo_descripcion,
+    transferencia.automotor_modelo_descripcion;
 ```
 
-#### **Consulta 3: Agrupa y cuenta la cantidad de transferencias por código y descripción del tipo de automotor y descripción del modelo del automotor**
+#### **Consulta 3: Esta consulta muestra cuantas transferencias se realizaron por fecha de tramite y por origen de automotor**
 ```sql
-SELECT
-    tipo_automotor.codigo AS automotor_tipo_codigo,
-    tipo_automotor.descripcion AS automotor_tipo_descripcion,
-    automotor.modelo_descripcion AS automotor_modelo_descripcion,
-    COUNT(*) AS cantidad
-FROM
-    transferencia
-    INNER JOIN automotor ON transferencia.automotor_id = automotor.id
-    INNER JOIN tipo_automotor ON automotor.tipo_automotor_id = tipo_automotor.id
+SELECT transferencia.tramite_fecha, transferencia.automotor_origen, COUNT(*) AS cantidad
+FROM transferencia
 GROUP BY
-    tipo_automotor.codigo,
-    tipo_automotor.descripcion,
-    automotor.modelo_descripcion;
+    transferencia.tramite_fecha,
+    transferencia.automotor_origen
+ORDER BY transferencia.tramite_fecha DESC;
 ```
 
 ## **Estructura del Proyecto**
